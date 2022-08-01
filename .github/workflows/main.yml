@@ -31,6 +31,7 @@ jobs:
 #         - name: bionic
 #         - name: focal
     env:
+      TEST1: 'aaa'
 #       DEBEMAIL: 'asottile+deadsnakes@umich.edu'
 #       DEBFULLNAME: 'Anthony Sottile (deadsnakes)'
 #       GIT_AUTHOR_NAME: 'Anthony Sottile'
