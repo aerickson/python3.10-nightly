@@ -27,15 +27,16 @@ jobs:
     strategy:
       matrix:
         include:
-        - name: bionic
-        - name: focal
+        - name: trusty
+#         - name: bionic
+#         - name: focal
     env:
-      DEBEMAIL: 'asottile+deadsnakes@umich.edu'
-      DEBFULLNAME: 'Anthony Sottile (deadsnakes)'
-      GIT_AUTHOR_NAME: 'Anthony Sottile'
-      GIT_AUTHOR_EMAIL: 'asottile+deadsnakes@umich.edu'
-      GIT_COMMITTER_NAME: 'Anthony Sottile'
-      GIT_COMMITTER_EMAIL: 'asottile+deadsnakes@umich.edu'
+#       DEBEMAIL: 'asottile+deadsnakes@umich.edu'
+#       DEBFULLNAME: 'Anthony Sottile (deadsnakes)'
+#       GIT_AUTHOR_NAME: 'Anthony Sottile'
+#       GIT_AUTHOR_EMAIL: 'asottile+deadsnakes@umich.edu'
+#       GIT_COMMITTER_NAME: 'Anthony Sottile'
+#       GIT_COMMITTER_EMAIL: 'asottile+deadsnakes@umich.edu'
     steps:
     - name: clone target
       uses: actions/checkout@v2
@@ -53,12 +54,12 @@ jobs:
       run: pip install gbp==0.9.24
     - name: install devscripts
       run: sudo apt-get update -qq && sudo apt-get install -y devscripts
-    - name: import gpg key
-      run: |
-        install --directory ~/.gnupg --mode 700
-        base64 -d <<< '${{ secrets.GPG_PUBLIC }}' > ~/.gnupg/pubring.gpg
-        base64 -d <<< '${{ secrets.GPG_SECRET }}' > ~/.gnupg/secring.gpg
-        chmod 600 ~/.gnupg/*
+#     - name: import gpg key
+#       run: |
+#         install --directory ~/.gnupg --mode 700
+#         base64 -d <<< '${{ secrets.GPG_PUBLIC }}' > ~/.gnupg/pubring.gpg
+#         base64 -d <<< '${{ secrets.GPG_SECRET }}' > ~/.gnupg/secring.gpg
+#         chmod 600 ~/.gnupg/*
     - name: update branch
       id: update
       run: |
@@ -80,9 +81,9 @@ jobs:
     - name: build source package
       run: rm -rf dist && cd target && ../runbooks/build --source --git-build
       if: ${{ steps.update.outputs.deploy == 'true' }}
-    - name: upload package
-      run: cd dist && dput -d -u ppa:deadsnakes/nightly *.changes
-      if: ${{ steps.update.outputs.deploy == 'true' }}
-    - name: push branches
-      run: git -C target push origin ubuntu/${{ matrix.name }}
-      if: ${{ steps.update.outputs.deploy == 'true' }}
+#     - name: upload package
+#       run: cd dist && dput -d -u ppa:deadsnakes/nightly *.changes
+#       if: ${{ steps.update.outputs.deploy == 'true' }}
+#     - name: push branches
+#       run: git -C target push origin ubuntu/${{ matrix.name }}
+#       if: ${{ steps.update.outputs.deploy == 'true' }}
